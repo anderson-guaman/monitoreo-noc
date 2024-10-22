@@ -1,5 +1,16 @@
+
 import { CheckService } from "../domain/use-case/checks/check-service";
+import { FileSystemDatasource } from "../infrastructure/datasources/file-system.datasource";
+import { LogRepositoryImpl } from "../infrastructure/repository/log.repository.impl";
 import { CronService } from "./cron-service";
+
+
+const fileSystemLogRepository = new LogRepositoryImpl(
+    new FileSystemDatasource()
+)
+
+
+
 
 export class Server{
     static start(){
@@ -11,8 +22,9 @@ export class Server{
             // const date = new Date;
             // console.log('5 seconds ', date);
 
-            const url = 'https://google.com'
+            const url = 'https://googe.com'
             new CheckService(
+                fileSystemLogRepository,
                 () => {console.log(`this url: ${url} is ok, succes`)},
                 (error) => {console.log(error)}
             )
